@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Solvoro — Your Vision, Our Creation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Solvoro is a creative design hub — logos, posters, social media content, resumes, and more.">
+  <!-- Font (use exact if found, here using Inter) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* AiFiesta-like dark theme colors */
+      --bg-main: #071024;        /* deep navy/dark blue */
+      --bg-card: #0b1220;        /* very dark panel background */
+      --text-light: #e6eef6;
+      --text-muted: #94a3b8;
+      --accent-gradient-start: #7c3aed;  /* purple */
+      --accent-gradient-end: #06b6d4;    /* cyan / teal */
+      --btn-hover-start: #5b21b6;
+      --btn-hover-end: #0284c7;
+      --border-light: rgba(255,255,255,0.05);
+      --radius: 12px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-light);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7,16,36, 0.85);
+      border-bottom: 1px solid var(--border-light);
+      backdrop-filter: blur(6px);
+      padding: 20px 0;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo {
+      width: 48px; height: 48px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end));
+      display: grid; place-items: center;
+      font-weight: 800;
+      font-size: 20px;
+      color: white;
+    }
+    .brand-text {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-light);
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+    }
+    nav ul li {
+      font-weight: 500;
+      font-size: 15px;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    nav ul li:hover {
+      color: var(--text-light);
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--text-light);
+      cursor: pointer;
+    }
+    @media (max-width: 900px) {
+      nav ul { display: none; }
+      .hamburger { display: block; }
+    }
+
+    /* Button styles like AiFiesta */
+    .btn {
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 15px;
+      border: 1px solid rgba(255,255,255,0.06);
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s, color 0.3s;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent-gradient-start), var(--accent-gradient-end));
+      color: white;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(90deg, var(--btn-hover-start), var(--btn-hover-end));
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-light);
+      border-color: rgba(255,255,255,0.3);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
+      padding: 80px 0;
+    }
+    .hero-text h1 {
+      font-size: 52px;
+      font-weight: 800;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+    .hero-text p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin-bottom: 30px;
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .hero-text h1 { font-size: 36px; }
+    }
+
+    /* Cards / Sections */
+    .services, .packs, .about, .contact {
+      padding: 60px 0;
+    }
+    .services-grid, .packs-grid {
+      display: grid;
+      gap: 30px;
+      grid-template-columns: repeat(3,1fr);
+    }
+    @media (max-width: 1000px) {
+      .services-grid, .packs-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 600px) {
+      .services-grid, .packs-grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      background: #13203A;
+    }
+    .card h3 {
+      font-size: 22px;
+      color: var(--text-light);
+      margin-bottom: 12px;
+    }
+    .card p {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .card .price {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent-gradient-start);
+      margin-bottom: 16px;
+    }
+
+    /* Packs cards */
+    .pack-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0;
+    }
+    .pack-card ul li {
+      margin-bottom: 8px;
+      color: var(--text-muted);
+    }
+
+    /* About */
+    .about h2, .services h2, .packs h2 {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+    .about p {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 700px;
+    }
+
+    /* Contact */
+    .contact form {
+      max-width: 600px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .contact input, .contact textarea {
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.15);
+      background: var(--bg-card);
+      color: var(--text-light);
+      font-size: 15px;
+    }
+    .contact input::placeholder, .contact textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-main);
+      color: var(--text-muted);
+      padding: 40px 20px;
+      border-top: 1px solid var(--border-light);
+      text-align: center;
+      font-size: 14px;
+    }
+    footer a { color: var(--text-muted); }
+    footer a:hover { color: var(--accent-gradient-start); }
+
+    /* Reveal / Animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">SO</div>
+        <div class="brand-text">Solvoro</div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#packs">Packs</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger" id="menuBtn" aria-expanded="false">☰</button>
+      <div class="cta-buttons">
+        <button class="btn btn-secondary" onclick="scrollToSection('#contact')">Contact</button>
+        <button class="btn btn-primary" onclick="scrollToSection('#services')">Start Project</button>
+      </div>
+    </div>
+    <div id="mobileMenu" style="display:none; background: rgba(7,16,36,0.95); padding: 20px 0;">
+      <div class="container">
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:20px;">
+          <li><a href="#home" onclick="closeMenu()">Home</a></li>
+          <li><a href="#services" onclick="closeMenu()">Services</a></li>
+          <li><a href="#packs" onclick="closeMenu()">Packs</a></li>
+          <li><a href="#about" onclick="closeMenu()">About Us</a></li>
+          <li><a href="#contact" onclick="closeMenu()">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero reveal" id="home">
+      <div class="hero-text">
+        <h1>Your Vision, Our Creation.</h1>
+        <p>We craft designs that inspire and connect. From striking logos to engaging digital content, Solvoro transforms your ideas into powerful visuals.</p>
+        <div class="cta-buttons">
+          <button class="btn btn-primary">Start Your Journey</button>
+        </div>
+      </div>
+      <div class="hero-image reveal">
+        <!-- Placeholder image -->
+        <img src="PLACEHOLDER_IMAGE.jpg" alt="Design Example" style="max-width:100%; border-radius: var(--radius);">
+      </div>
+    </section>
+
+    <section class="services reveal" id="services">
+      <h2>Our Services</h2>
+      <div class="services-grid">
+        <div class="card">
+          <h3>Logo Design</h3>
+          <p>Create a distinct identity for your brand with a creative logo that stands out.</p>
+          <div class="price">₹399</div>
+          <button class="btn btn-primary">Start Project</button>
+        </div>
+        <div class="card">
+          <h3>Poster / Flyer</h3>
+          <p>Catch attention with high-quality posters and flyers designed to impress.</p>
+          <div class="price">₹99</div>
+          <button class="btn btn-primary">Start Project</button>
+        </div>
+        <div class="card">
+          <h3>Social Media Post</h3>
+          <p>Engaging social posts tailored to your audience. Single posts or bundles.</p>
+          <div class="price">₹79 / post</div>
+          <button class="btn btn-primary">Start Project</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="packs reveal" id="packs">
+      <h2>Packs & Bundles</h2>
+      <div class="packs-grid">
+        <div class="card pack-card">
+          <h3>Starter Pack</h3>
+          <ul>
+            <li>1 Logo + 2 Social Posts</li>
+            <li>5 Captions</li>
+            <li>Short Video (up to 30s)</li>
+          </ul>
+          <div class="price">₹1,299</div>
+          <button class="btn btn-primary">Get Pack</button>
+        </div>
+        <div class="card pack-card">
+          <h3>Growth Pack</h3>
+          <ul>
+            <li>1 Logo + 5 Social Posts + Poster</li>
+            <li>10 Captions + 1 Blog Post</li>
+            <li>Short Video (up to 60s)</li>
+          </ul>
+          <div class="price">₹2,699</div>
+          <button class="btn btn-primary">Get Pack</button>
+        </div>
+        <div class="card pack-card">
+          <h3>Business Pack</h3>
+          <ul>
+            <li>2 Logos + 10 Posts + Banner</li>
+            <li>20 Captions + 2 Blogs</li>
+            <li>Long Video + AI Audio</li>
+          </ul>
+          <div class="price">₹4,999</div>
+          <button class="btn btn-primary">Get Pack</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="about reveal" id="about">
+      <h2>About Solvoro</h2>
+      <p>Solvoro is a creative design hub where ideas turn into impactful visuals. We specialize in crafting logos, posters, social media content, resumes, and more — all with a modern and memorable touch. Our mission is simple: to bring your vision to life with designs that inspire, connect, and stand out.</p>
+    </section>
+
+    <section class="contact reveal" id="contact">
+      <h2>Get in Touch</h2>
+      <form>
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" rows="4" placeholder="What can we help you with?" required></textarea>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="reveal">
+    <div class="container">
+      <p>Follow us on social media &nbsp; | &nbsp; solvoro.official@gmail.com</p>
+      <p>&copy; Solvoro <span id="year"></span>. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn && menuBtn.addEventListener('click', ()=>{
+      const showing = mobileMenu.style.display === 'block';
+      mobileMenu.style.display = showing ? 'none' : 'block';
+      menuBtn.setAttribute('aria-expanded', String(!showing));
+    });
+    function closeMenu(){
+      mobileMenu.style.display = 'none';
+      menuBtn && menuBtn.setAttribute('aria-expanded','false');
+    }
+
+    // scroll to section
+    function scrollToSection(sel){
+      const el = document.querySelector(sel);
+      if(el){
+        const offset = 80;
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - offset, behavior: 'smooth' });
+      }
+    }
+
+    // reveal on scroll
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      reveals.forEach(el=>{
+        // initial invisible
+        el.classList.add('invisible');
+        observer.observe(el);
+      });
+    });
+
+    // set year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
