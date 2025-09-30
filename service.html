@@ -1,23 +1,143 @@
-<form>
-  <!-- Service selection -->
-  <select id="serviceSelect" name="service" required>
-    <option value="">Select a Service</option>
-    <option value="Logo Design">Logo Design</option>
-    <option value="Poster Design">Poster Design</option>
-  </select>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Solvoro — Our Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #071024;
+      --bg-card: #0b1220;
+      --text-light: #e6eef6;
+      --text-muted: #94a3b8;
+      --accent-gradient-start: #7c3aed;
+      --accent-gradient-end: #06b6d4;
+      --btn-hover-start: #5b21b6;
+      --btn-hover-end: #0284c7;
+      --border-light: rgba(255,255,255,0.05);
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-light); }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
-  <!-- Agreement checkbox -->
-  <label style="display:flex; align-items:center; gap:8px; font-size:14px; color:#94a3b8; margin-top:10px;">
-    <input type="checkbox" name="agree" required>
-    I have read and agree to the Terms & Conditions of the selected service.
-  </label>
+    header {
+      background: rgba(7,16,36,0.95);
+      padding: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-light);
+      border-radius: var(--radius);
+    }
+    .logo { width:50px; height:50px; border-radius:50%; background: linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end)); display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; }
+    nav ul { display:flex; list-style:none; gap:20px; }
+    nav ul li { font-weight:500; }
+    nav ul li:hover { color: var(--accent-gradient-end); }
 
-  <!-- Always visible Terms box -->
-  <div id="serviceTerms" style="background:#0b1220; padding:16px; border-radius:12px; margin-top:10px; color:#e6eef6; border:1px solid rgba(255,255,255,0.05); max-height:200px; overflow-y:auto;">
-    <h4>Terms & Conditions</h4>
-    <p><strong>Logo Design:</strong> Delivery within 5 business days. 2 revisions included. Original files shared after full payment.</p>
-    <p><strong>Poster Design:</strong> Delivery within 3 business days. 1 revision included. Files delivered in PNG/PDF.</p>
-  </div>
+    h1 { text-align:center; margin-bottom:40px; font-size:36px; }
 
-  <button type="submit" class="btn btn-primary" style="margin-top:10px;">Submit Order</button>
-</form>
+    .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:30px; }
+    @media(max-width:900px){ .services-grid{ grid-template-columns:1fr; } }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border:1px solid var(--border-light);
+      padding:24px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .card:hover { transform: translateY(-5px); background:#13203A; }
+    .card h3 { font-size:22px; margin-bottom:12px; color:var(--text-light);}
+    .card p { font-size:15px; color:var(--text-muted); margin-bottom:12px; }
+    .price { font-size:18px; font-weight:700; color:var(--accent-gradient-start); margin-bottom:12px; }
+    .btn { padding:10px 18px; border-radius: var(--radius); font-weight:600; font-size:15px; border:1px solid rgba(255,255,255,0.06); cursor:pointer; transition: background 0.3s, border-color 0.3s, color 0.3s; }
+    .btn-primary { background: linear-gradient(90deg, var(--accent-gradient-start), var(--accent-gradient-end)); color:white; }
+    .btn-primary:hover { background: linear-gradient(90deg, var(--btn-hover-start), var(--btn-hover-end)); }
+
+    footer {
+      text-align:center;
+      padding:40px 20px;
+      border-top:1px solid var(--border-light);
+      color:var(--text-muted);
+    }
+    footer a:hover { color: var(--accent-gradient-start); }
+  </style>
+</head>
+<body>
+  <header class="container">
+    <div class="logo">SO</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Our Services</h1>
+    <div class="services-grid">
+      <!-- Website Design -->
+      <div class="card">
+        <h3>Website Design</h3>
+        <p>Responsive, 3–5 pages, contact form, custom design.</p>
+        <div class="price">₹1,499 (Launch Offer) <br> <s>₹2,799</s></div>
+        <a href="order.html?service=Website%20Design" class="btn btn-primary">Order Now</a>
+      </div>
+
+      <!-- Logo Design -->
+      <div class="card">
+        <h3>Logo Design</h3>
+        <p>Unique brand identity logos for your business.</p>
+        <div class="price">₹399 (Launch Offer) <br> <s>₹799</s></div>
+        <a href="order.html?service=Logo%20Design" class="btn btn-primary">Order Now</a>
+      </div>
+
+      <!-- Social Media Poster / Banner -->
+      <div class="card">
+        <h3>Social Media Poster / Banner</h3>
+        <p>Eye-catching social posts or banners for your brand.</p>
+        <div class="price">₹129 (Launch Offer) <br> <s>₹199</s></div>
+        <a href="order.html?service=Poster%20Design" class="btn btn-primary">Order Now</a>
+      </div>
+
+      <!-- Business Card Design -->
+      <div class="card">
+        <h3>Business Card Design</h3>
+        <p>Professional business card design to impress clients.</p>
+        <div class="price">₹239 (Launch Offer) <br> <s>₹299</s></div>
+        <a href="order.html?service=Business%20Card" class="btn btn-primary">Order Now</a>
+      </div>
+
+      <!-- Poster Design -->
+      <div class="card">
+        <h3>Poster Design</h3>
+        <p>High-quality poster design for events and promotions.</p>
+        <div class="price">₹249</div>
+        <a href="order.html?service=Poster" class="btn btn-primary">Order Now</a>
+      </div>
+
+      <!-- Blog Writing -->
+      <div class="card">
+        <h3>Blog Writing</h3>
+        <p>Professional blog content at ₹30 per 100 words.</p>
+        <div class="price">₹30 / 100 words</div>
+        <a href="order.html?service=Blog%20Writing" class="btn btn-primary">Order Now</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Follow us on <a href="https://instagram.com/solvoro">Instagram</a> | <a href="mailto:solvoro.official@gmail.com">Contact Us</a></p>
+    <p>&copy; Solvoro 2025. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
+
