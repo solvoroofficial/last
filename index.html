@@ -1,52 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Solvoro - Creative Digital Solutions</title>
   <style>
-    /* Reset */
+    /* Base styles */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Segoe UI", Arial, sans-serif;
+      font-family: "Inter", sans-serif;
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
+      background: var(--bg-main);
+      color: var(--text-light);
       line-height: 1.6;
       transition: background 0.3s, color 0.3s;
     }
 
     a { text-decoration: none; }
 
-    /* Theme Variables */
+    /* --- Theme Variables --- */
     :root {
-      --bg: #ffffff;
-      --text: #333333;
-      --card: #ffffff;
-      --card-text: #333333;
-      --footer-bg: #111827;
-      --footer-text: #d1d5db;
-      --footer-link: #9ca3af;
+      /* Dark (Default) */
+      --bg-main: #071024;
+      --bg-card: #0b1220;
+      --text-light: #e6eef6;
+      --text-muted: #94a3b8;
+      --accent-gradient-start: #7c3aed;
+      --accent-gradient-end: #06b6d4;
+      --btn-hover-start: #5b21b6;
+      --btn-hover-end: #0284c7;
+      --border-light: rgba(255,255,255,0.05);
+      --footer-bg: #071024;
     }
 
-    body.dark {
-      --bg: #1f2937;
-      --text: #f3f4f6;
-      --card: #374151;
-      --card-text: #f9fafb;
-      --footer-bg: #000000;
-      --footer-text: #9ca3af;
-      --footer-link: #d1d5db;
+    body.light {
+      /* Light Theme */
+      --bg-main: #f9fafb;
+      --bg-card: #ffffff;
+      --text-light: #111827;
+      --text-muted: #4b5563;
+      --accent-gradient-start: #4f46e5;
+      --accent-gradient-end: #06b6d4;
+      --btn-hover-start: #4338ca;
+      --btn-hover-end: #0284c7;
+      --border-light: rgba(0,0,0,0.1);
+      --footer-bg: #f3f4f6;
     }
 
     /* Header */
-    .site-header {
-      background: var(--card);
-      border-bottom: 2px solid #eee;
+    header {
+      background: var(--bg-card);
+      border-bottom: 2px solid var(--border-light);
       padding: 20px 0;
       position: sticky;
       top: 0;
@@ -59,79 +67,90 @@
       margin: auto;
     }
 
-    .header-content {
+    .nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .site-logo {
+    .logo {
       width: 60px;
       height: 60px;
       border-radius: 50%;
     }
 
-    .nav-links {
+    nav ul {
       list-style: none;
       display: flex;
       gap: 25px;
       align-items: center;
     }
 
-    .nav-links a {
+    nav ul a {
       font-weight: 600;
-      color: var(--text);
+      color: var(--text-light);
       transition: color 0.3s;
     }
 
-    .nav-links a:hover {
-      color: #4f46e5;
+    nav ul a:hover {
+      color: var(--accent-gradient-start);
     }
 
     .theme-toggle {
       cursor: pointer;
       padding: 8px 14px;
-      background: #4f46e5;
+      background: linear-gradient(90deg, var(--accent-gradient-start), var(--accent-gradient-end));
       color: white;
       border: none;
       border-radius: 8px;
       font-weight: 600;
     }
 
-    /* Hero */
+    /* Hero Banner */
     .hero {
-      background: linear-gradient(135deg, #4f46e5, #6366f1);
-      color: white;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 40px;
       padding: 80px 20px;
-      text-align: center;
+    }
+
+    .hero-text h1 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--text-light);
+    }
+
+    .hero-text p {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
     }
 
     .hero img {
-      max-width: 280px;
+      max-width: 100%;
       border-radius: 20px;
-      margin-top: 20px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
     }
 
     .btn-primary {
       display: inline-block;
       margin-top: 20px;
-      background: #fff;
-      color: #4f46e5;
+      background: linear-gradient(90deg, var(--accent-gradient-start), var(--accent-gradient-end));
+      color: white;
       padding: 12px 24px;
       font-weight: 600;
       border-radius: 8px;
-      transition: background 0.3s;
+      transition: opacity 0.3s;
     }
 
     .btn-primary:hover {
-      background: #f3f4f6;
+      opacity: 0.9;
     }
 
     /* Services */
-    .services-highlight {
+    .services {
       padding: 60px 20px;
-      background: var(--bg);
       text-align: center;
     }
 
@@ -143,51 +162,22 @@
       margin-top: 30px;
     }
 
-    .service-card {
-      background: var(--card);
-      color: var(--card-text);
+    .card {
+      background: var(--bg-card);
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       width: 280px;
       transition: background 0.3s, color 0.3s;
     }
 
-    .service-card h3 {
+    .card h3 {
       margin-bottom: 10px;
-      color: #4f46e5;
+      color: var(--accent-gradient-start);
     }
 
-    /* Process */
-    .process {
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .steps {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 30px;
-    }
-
-    .step {
-      background: var(--card);
-      color: var(--card-text);
-      padding: 20px;
-      border-radius: 10px;
-      width: 220px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      transition: background 0.3s, color 0.3s;
-    }
-
-    .step span {
-      display: block;
-      font-size: 24px;
-      font-weight: bold;
-      color: #4f46e5;
-      margin-bottom: 8px;
+    .card p {
+      color: var(--text-muted);
     }
 
     /* Reviews */
@@ -205,57 +195,47 @@
     }
 
     .review-card {
-      background: var(--card);
-      color: var(--card-text);
+      background: var(--bg-card);
+      color: var(--text-light);
       padding: 20px;
       border-radius: 10px;
       width: 280px;
       font-style: italic;
-      transition: background 0.3s, color 0.3s;
     }
 
     /* Footer */
-    .site-footer {
+    footer {
       background: var(--footer-bg);
-      color: var(--footer-text);
+      color: var(--text-muted);
       padding: 40px 20px;
       text-align: center;
-      transition: background 0.3s, color 0.3s;
     }
 
-    .footer-links {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 15px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a {
-      color: var(--footer-link);
+    footer a {
+      color: var(--text-muted);
+      margin: 0 10px;
       transition: color 0.3s;
     }
 
-    .footer-links a:hover {
-      color: #4f46e5;
+    footer a:hover {
+      color: var(--accent-gradient-start);
     }
   </style>
 </head>
 <body>
   <!-- Header -->
-  <header class="site-header">
-    <div class="container header-content">
-      <a href="index.html" class="logo-link">
-        <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro Logo" class="site-logo" />
+  <header>
+    <div class="container nav">
+      <a href="index.html">
+        <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro Logo" class="logo">
       </a>
       <nav>
-        <ul class="nav-links">
+        <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="services.html">Services</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><button class="theme-toggle" id="themeToggle">🌙 Dark</button></li>
+          <li><button class="theme-toggle" id="themeToggle">☀️ Light</button></li>
         </ul>
       </nav>
     </div>
@@ -263,89 +243,59 @@
 
   <!-- Hero Banner -->
   <section class="hero">
-    <div class="container">
-      <h1>Creative Websites & Stunning Logos</h1>
-      <p>At Solvoro, we specialize in building modern websites and unique brand logos tailored for your business.</p>
+    <div class="hero-text">
+      <h1>Creative Websites & Logos</h1>
+      <p>We build stunning websites and craft professional logos to make your brand shine online.</p>
       <a href="services.html" class="btn-primary">Explore Services</a>
-      <br />
-      <img src="https://picsum.photos/400/250" alt="Sample Work" />
+    </div>
+    <div class="hero-image">
+      <img src="https://picsum.photos/500/300" alt="Sample Work">
     </div>
   </section>
 
   <!-- Services -->
-  <section class="services-highlight">
-    <div class="container">
-      <h2>Our Main Services</h2>
-      <div class="service-grid">
-        <div class="service-card">
-          <h3>Website Development</h3>
-          <p>Custom websites to boost your online presence. Affordable and responsive design for all devices.</p>
-        </div>
-        <div class="service-card">
-          <h3>Logo Design</h3>
-          <p>Creative and professional logos to represent your brand identity in the best possible way.</p>
-        </div>
+  <section class="services">
+    <h2>Our Main Services</h2>
+    <div class="service-grid">
+      <div class="card">
+        <h3>Website Development</h3>
+        <p>Modern, responsive, and affordable websites for all businesses.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- Process -->
-  <section class="process">
-    <div class="container">
-      <h2>How It Works</h2>
-      <div class="steps">
-        <div class="step">
-          <span>1</span>
-          Place Your Order
-        </div>
-        <div class="step">
-          <span>2</span>
-          We Start Designing
-        </div>
-        <div class="step">
-          <span>3</span>
-          Review & Feedback
-        </div>
-        <div class="step">
-          <span>4</span>
-          Final Delivery
-        </div>
+      <div class="card">
+        <h3>Logo Design</h3>
+        <p>Unique and professional logos tailored to your brand identity.</p>
       </div>
     </div>
   </section>
 
   <!-- Reviews -->
   <section class="reviews">
-    <div class="container">
-      <h2>What Our Clients Say</h2>
-      <div class="review-grid">
-        <div class="review-card">"Amazing service! My website looks fantastic." – Client A</div>
-        <div class="review-card">"The logo design was spot on, exactly what I wanted." – Client B</div>
-        <div class="review-card">"Very professional and quick delivery." – Client C</div>
-      </div>
+    <h2>Client Reviews</h2>
+    <div class="review-grid">
+      <div class="review-card">"My website is super smooth and modern!" – Client A</div>
+      <div class="review-card">"The logo perfectly matches my brand vision." – Client B</div>
+      <div class="review-card">"Affordable and professional service." – Client C</div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="site-footer">
-    <div class="container footer-content">
-      <p>&copy; 2025 Solvoro. All rights reserved.</p>
-      <ul class="footer-links">
-        <li><a href="privacy.html">Privacy Policy</a></li>
-        <li><a href="terms.html">Terms & Conditions</a></li>
-      </ul>
-    </div>
+  <footer>
+    <p>&copy; 2025 Solvoro. All Rights Reserved.</p>
+    <p>
+      <a href="privacy.html">Privacy Policy</a> | 
+      <a href="terms.html">Terms & Conditions</a>
+    </p>
   </footer>
 
   <script>
-    // Theme toggle logic
+    // Theme toggle
     const themeToggle = document.getElementById("themeToggle");
     themeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark");
-      if (document.body.classList.contains("dark")) {
-        themeToggle.textContent = "☀️ Light";
-      } else {
+      document.body.classList.toggle("light");
+      if (document.body.classList.contains("light")) {
         themeToggle.textContent = "🌙 Dark";
+      } else {
+        themeToggle.textContent = "☀️ Light";
       }
     });
   </script>
