@@ -1,0 +1,23 @@
+<form>
+  <!-- Service selection -->
+  <select id="serviceSelect" name="service" required>
+    <option value="">Select a Service</option>
+    <option value="Logo Design">Logo Design</option>
+    <option value="Poster Design">Poster Design</option>
+  </select>
+
+  <!-- Agreement checkbox -->
+  <label style="display:flex; align-items:center; gap:8px; font-size:14px; color:#94a3b8; margin-top:10px;">
+    <input type="checkbox" name="agree" required>
+    I have read and agree to the Terms & Conditions of the selected service.
+  </label>
+
+  <!-- Always visible Terms box -->
+  <div id="serviceTerms" style="background:#0b1220; padding:16px; border-radius:12px; margin-top:10px; color:#e6eef6; border:1px solid rgba(255,255,255,0.05); max-height:200px; overflow-y:auto;">
+    <h4>Terms & Conditions</h4>
+    <p><strong>Logo Design:</strong> Delivery within 5 business days. 2 revisions included. Original files shared after full payment.</p>
+    <p><strong>Poster Design:</strong> Delivery within 3 business days. 1 revision included. Files delivered in PNG/PDF.</p>
+  </div>
+
+  <button type="submit" class="btn btn-primary" style="margin-top:10px;">Submit Order</button>
+</form>
