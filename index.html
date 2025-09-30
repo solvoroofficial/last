@@ -1,173 +1,296 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Solvoro — Your Vision, Our Creation</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-<style>
-  body { margin:0; font-family:'Inter', sans-serif; background:#071024; color:#e6eef6; line-height:1.6;}
-  a { color:inherit; text-decoration:none; }
-  .container { max-width:1200px; margin:auto; padding:0 20px; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solvoro - Creative Digital Solutions</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
 
-  /* Header */
-  header { display:flex; justify-content:space-between; align-items:center; padding:15px 0; background:#0b1220; border-bottom:1px solid rgba(255,255,255,0.1);}
-  .brand { display:flex; align-items:center; gap:12px; }
-  .brand img { width:50px; height:50px; border-radius:50%; object-fit:cover; }
-  .brand-text { font-size:20px; font-weight:700; }
-  nav ul { display:flex; list-style:none; gap:24px; margin:0; padding:0; }
-  nav ul li { font-weight:500; font-size:15px; color:#94a3b8; transition:color 0.2s; }
-  nav ul li:hover { color:#fff; }
-  .btn-primary { background:linear-gradient(90deg,#7c3aed,#06b6d4); color:#fff; padding:10px 18px; border:none; border-radius:10px; font-weight:600; cursor:pointer;}
+    body {
+      background: #fff;
+      color: #333;
+      line-height: 1.6;
+    }
 
-  /* Hero */
-  .hero { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:40px; padding:80px 20px; }
-  .hero-text h1 { font-size:48px; font-weight:800; margin-bottom:15px; }
-  .hero-text p { font-size:18px; color:#94a3b8; margin-bottom:25px; }
-  .hero img { width:100%; border-radius:12px; }
-  @media(max-width:900px) {
-    .hero { grid-template-columns:1fr; text-align:center; }
-    .hero-text h1 { font-size:36px; }
-    .hero img { max-width:400px; margin:auto; }
-  }
+    a { text-decoration: none; }
 
-  /* Section headings */
-  section h2 { font-size:32px; font-weight:700; text-align:center; margin-bottom:40px; }
+    /* Header */
+    .site-header {
+      background: #ffffff;
+      border-bottom: 2px solid #eee;
+      padding: 20px 0; /* thicker header */
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
-  /* Works */
-  .works-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-  .works-grid img { width:100%; border-radius:12px; }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
 
-  /* Reviews */
-  .reviews { background:#0b1220; padding:60px 20px; }
-  .review-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; }
-  .review { background:#13203A; padding:20px; border-radius:12px; }
-  .review p { font-size:15px; color:#cbd5e1; }
-  .review strong { display:block; margin-top:10px; color:#fff; }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-  /* Services */
-  .services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-  .card { background:#0b1220; padding:24px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); text-align:center; }
-  .card h3 { font-size:20px; margin-bottom:10px; }
-  .price { font-size:18px; font-weight:700; color:#7c3aed; margin:10px 0; }
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%; /* circle logo */
+    }
 
-  /* Process */
-  .process-steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; }
-  .step { background:#13203A; padding:20px; border-radius:12px; text-align:center; }
-  .step span { display:block; font-size:32px; font-weight:800; color:#06b6d4; margin-bottom:10px; }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
 
-  /* Footer */
-  footer { background:#0b1220; color:#94a3b8; padding:40px 20px; text-align:center; margin-top:50px; }
-  footer a { color:#94a3b8; margin:0 10px; }
-  footer a:hover { color:#06b6d4; }
-</style>
+    .nav-links a {
+      font-weight: 600;
+      color: #333;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #4f46e5;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .hero img {
+      max-width: 280px;
+      border-radius: 20px;
+      margin-top: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-primary {
+      display: inline-block;
+      margin-top: 20px;
+      background: #fff;
+      color: #4f46e5;
+      padding: 12px 24px;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .btn-primary:hover {
+      background: #f3f4f6;
+    }
+
+    /* Services */
+    .services-highlight {
+      padding: 60px 20px;
+      background: #f9fafb;
+      text-align: center;
+    }
+
+    .service-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .service-card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      width: 280px;
+    }
+
+    .service-card h3 {
+      margin-bottom: 10px;
+      color: #4f46e5;
+    }
+
+    /* Process */
+    .process {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .step {
+      background: #f3f4f6;
+      padding: 20px;
+      border-radius: 10px;
+      width: 220px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .step span {
+      display: block;
+      font-size: 24px;
+      font-weight: bold;
+      color: #4f46e5;
+      margin-bottom: 8px;
+    }
+
+    /* Reviews */
+    .reviews {
+      padding: 60px 20px;
+      background: #fff;
+      text-align: center;
+    }
+
+    .review-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .review-card {
+      background: #f9fafb;
+      padding: 20px;
+      border-radius: 10px;
+      width: 280px;
+      font-style: italic;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: #111827;
+      color: #d1d5db;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #9ca3af;
+    }
+  </style>
 </head>
 <body>
-
   <!-- Header -->
-  <header class="container">
-    <div class="brand">
-      <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro Logo">
-      <div class="brand-text">Solvoro</div>
+  <header class="site-header">
+    <div class="container header-content">
+      <a href="index.html" class="logo-link">
+        <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro Logo" class="site-logo" />
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
     </div>
-    <nav>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#works">Works</a></li>
-        <li><a href="#reviews">Reviews</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#process">Process</a></li>
-      </ul>
-    </nav>
-    <button class="btn-primary">Start Now</button>
   </header>
 
-  <!-- Hero -->
-  <section class="hero container" id="home">
-    <div class="hero-text">
-      <h1>Your Vision, Our Creation.</h1>
-      <p>Designs that inspire. From logos to websites, we make your brand shine.</p>
-      <button class="btn-primary">Get Started</button>
-    </div>
-    <div class="hero-image">
-      <img src="hero-sample.jpg" alt="Creative Design Showcase">
-    </div>
-  </section>
-
-  <!-- Works -->
-  <section class="container works" id="works">
-    <h2>Our Works</h2>
-    <div class="works-grid">
-      <img src="sample1.jpg" alt="Sample Work">
-      <img src="sample2.jpg" alt="Sample Work">
-      <img src="sample3.jpg" alt="Sample Work">
-    </div>
-  </section>
-
-  <!-- Reviews -->
-  <section class="reviews" id="reviews">
+  <!-- Hero Banner -->
+  <section class="hero">
     <div class="container">
-      <h2>What Our Clients Say</h2>
-      <div class="review-cards">
-        <div class="review">
-          <p>"Amazing service! The logo design was perfect for my startup."</p>
-          <strong>— A Happy Client</strong>
-        </div>
-        <div class="review">
-          <p>"They delivered my poster in just 2 days, exactly what I needed."</p>
-          <strong>— Business Owner</strong>
-        </div>
-        <div class="review">
-          <p>"Professional and creative team. Highly recommend Solvoro."</p>
-          <strong>— Entrepreneur</strong>
-        </div>
-      </div>
+      <h1>Creative Websites & Stunning Logos</h1>
+      <p>At Solvoro, we specialize in building modern websites and unique brand logos tailored for your business.</p>
+      <a href="services.html" class="btn-primary">Explore Services</a>
+      <br />
+      <img src="https://picsum.photos/400/250" alt="Sample Work" />
     </div>
   </section>
 
   <!-- Services -->
-  <section class="container services" id="services">
-    <h2>Our Services</h2>
-    <div class="services-grid">
-      <div class="card">
-        <h3>Logo Design</h3>
-        <div class="price">₹599</div>
-        <p>Unique logos that make your brand stand out.</p>
-      </div>
-      <div class="card">
-        <h3>Poster Design</h3>
-        <div class="price">₹249</div>
-        <p>Posters and flyers to promote your business.</p>
-      </div>
-      <div class="card">
-        <h3>Business Card</h3>
-        <div class="price">₹229</div>
-        <p>Professional cards that leave an impression.</p>
+  <section class="services-highlight">
+    <div class="container">
+      <h2>Our Main Services</h2>
+      <div class="service-grid">
+        <div class="service-card">
+          <h3>Website Development</h3>
+          <p>Custom websites to boost your online presence. Affordable and responsive design for all devices.</p>
+        </div>
+        <div class="service-card">
+          <h3>Logo Design</h3>
+          <p>Creative and professional logos to represent your brand identity in the best possible way.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Process -->
-  <section class="container process" id="process">
-    <h2>How It Works</h2>
-    <div class="process-steps">
-      <div class="step"><span>1</span><p>Choose a Service</p></div>
-      <div class="step"><span>2</span><p>Submit Your Details</p></div>
-      <div class="step"><span>3</span><p>We Create Your Design</p></div>
-      <div class="step"><span>4</span><p>Review & Final Delivery</p></div>
+  <section class="process">
+    <div class="container">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <span>1</span>
+          Place Your Order
+        </div>
+        <div class="step">
+          <span>2</span>
+          We Start Designing
+        </div>
+        <div class="step">
+          <span>3</span>
+          Review & Feedback
+        </div>
+        <div class="step">
+          <span>4</span>
+          Final Delivery
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="reviews">
+    <div class="container">
+      <h2>What Our Clients Say</h2>
+      <div class="review-grid">
+        <div class="review-card">"Amazing service! My website looks fantastic." – Client A</div>
+        <div class="review-card">"The logo design was spot on, exactly what I wanted." – Client B</div>
+        <div class="review-card">"Very professional and quick delivery." – Client C</div>
+      </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer>
-    <p>© 2025 Solvoro. All rights reserved.</p>
-    <p>
-      <a href="#">Privacy Policy</a> | 
-      <a href="#">Terms & Conditions</a> | 
-      <a href="#">Contact</a>
-    </p>
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>&copy; 2025 Solvoro. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms & Conditions</a></li>
+      </ul>
+    </div>
   </footer>
-
 </body>
 </html>
 
