@@ -3,301 +3,256 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solvoro - Creative Digital Solutions</title>
+  <title>Solvoro Box Library</title>
   <style>
-    /* Base styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Inter", sans-serif;
+    :root {
+      --dark-bg: #0c1331;
+      --dark-card: #1a1f3c;
+      --light-bg: #f4f6fb;
+      --light-card: #ffffff;
+      --accent: #5b4bff;
+      --text-light: #f9f9ff;
+      --text-dark: #111;
     }
 
     body {
-      background: var(--bg-main);
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark-bg);
       color: var(--text-light);
-      line-height: 1.6;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    a { text-decoration: none; }
-
-    /* --- Theme Variables --- */
-    :root {
-      /* Dark (Default) */
-      --bg-main: #071024;
-      --bg-card: #0b1220;
-      --text-light: #e6eef6;
-      --text-muted: #94a3b8;
-      --accent-gradient-start: #7c3aed;
-      --accent-gradient-end: #06b6d4;
-      --btn-hover-start: #5b21b6;
-      --btn-hover-end: #0284c7;
-      --border-light: rgba(255,255,255,0.05);
-      --footer-bg: #071024;
+      transition: 0.3s;
     }
 
     body.light {
-      /* Light Theme */
-      --bg-main: #f9fafb;
-      --bg-card: #ffffff;
-      --text-light: #111827;
-      --text-muted: #4b5563;
-      --accent-gradient-start: #4f46e5;
-      --accent-gradient-end: #06b6d4;
-      --btn-hover-start: #4338ca;
-      --btn-hover-end: #0284c7;
-      --border-light: rgba(0,0,0,0.1);
-      --footer-bg: #f3f4f6;
+      background-color: var(--light-bg);
+      color: var(--text-dark);
     }
 
-    /* Header */
-    header {
-      background: var(--bg-card);
-      border-bottom: 2px solid var(--border-light);
-      padding: 20px 0;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .nav {
+    header, footer {
+      padding: 1rem 2rem;
+      background: var(--dark-card);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
+    body.light header, body.light footer {
+      background: var(--light-card);
+    }
+
     .logo {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent);
     }
 
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 25px;
-      align-items: center;
-    }
-
-    nav ul a {
-      font-weight: 600;
-      color: var(--text-light);
-      transition: color 0.3s;
-    }
-
-    nav ul a:hover {
-      color: var(--accent-gradient-start);
-    }
-
-    .theme-toggle {
+    .toggle-btn {
+      background: var(--accent);
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
       cursor: pointer;
-      padding: 8px 14px;
-      background: linear-gradient(90deg, var(--accent-gradient-start), var(--accent-gradient-end));
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--accent);
+      margin-bottom: 2rem;
+    }
+
+    .box-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .box {
+      background: var(--dark-card);
+      padding: 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    body.light .box {
+      background: var(--light-card);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--accent);
       color: white;
       border: none;
       border-radius: 8px;
+      padding: 0.3rem 0.8rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .box h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .price {
+      font-size: 1.8rem;
       font-weight: 600;
+      color: var(--accent);
     }
 
-    /* Hero Banner */
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 40px;
-      padding: 80px 20px;
-    }
-
-    .hero-text h1 {
-      font-size: 48px;
-      font-weight: 800;
-      margin-bottom: 20px;
-      color: var(--text-light);
-    }
-
-    .hero-text p {
-      font-size: 18px;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-
-    .hero img {
-      max-width: 100%;
-      border-radius: 20px;
-    }
-
-    .btn-primary {
-      display: inline-block;
-      margin-top: 20px;
-      background: linear-gradient(90deg, var(--accent-gradient-start), var(--accent-gradient-end));
-      color: white;
-      padding: 12px 24px;
-      font-weight: 600;
-      border-radius: 8px;
-      transition: opacity 0.3s;
-    }
-
-    .btn-primary:hover {
-      opacity: 0.9;
-    }
-
-    /* Services */
-    .services {
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .service-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-      margin-top: 30px;
-    }
-
-    .card {
-      background: var(--bg-card);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      width: 280px;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    .card h3 {
-      margin-bottom: 10px;
-      color: var(--accent-gradient-start);
-    }
-
-    .card p {
-      color: var(--text-muted);
-    }
-
-    /* Reviews */
-    .reviews {
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .review-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 30px;
-    }
-
-    .review-card {
-      background: var(--bg-card);
-      color: var(--text-light);
-      padding: 20px;
-      border-radius: 10px;
-      width: 280px;
-      font-style: italic;
-    }
-
-    /* Footer */
     footer {
-      background: var(--footer-bg);
-      color: var(--text-muted);
-      padding: 40px 20px;
       text-align: center;
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-top: 3rem;
     }
 
-    footer a {
-      color: var(--text-muted);
-      margin: 0 10px;
-      transition: color 0.3s;
+    img {
+      width: 100%;
+      border-radius: 10px;
     }
 
-    footer a:hover {
-      color: var(--accent-gradient-start);
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
   <header>
-    <div class="container nav">
-      <a href="index.html">
-        <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro Logo" class="logo">
-      </a>
-      <nav>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="/service">Services</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><button class="theme-toggle" id="themeToggle">☀️ Light</button></li>
-        </ul>
-      </nav>
-    </div>
+    <div class="logo">Solvoro Box Library</div>
+    <button class="toggle-btn" id="themeToggle">🌙 / ☀️</button>
   </header>
 
-  <!-- Hero Banner -->
-  <section class="hero">
-    <div class="hero-text">
-      <h1>Creative Websites & Logos</h1>
-      <p>We build stunning websites and craft professional logos to make your brand shine online.</p>
-      <a href="services.html" class="btn-primary">Explore Services</a>
-    </div>
-    <div class="hero-image">
-      <img src="https://picsum.photos/500/300" alt="Sample Work">
-    </div>
-  </section>
+  <main>
+    <h1>Reusable UI Boxes</h1>
 
-  <!-- Services -->
-  <section class="services">
-    <h2>Our Main Services</h2>
-    <div class="service-grid">
-      <div class="card">
-        <h3>Website Development</h3>
-        <p>Modern, responsive, and affordable websites for all businesses.</p>
+    <div class="box-grid">
+      <!-- 1. Service Box -->
+      <div class="box" id="serviceBox">
+        <button class="copy-btn" onclick="copyBox('serviceBox')">Copy Code</button>
+        <h3>Website Design</h3>
+        <p>Get your business online with a stunning and responsive website.</p>
+        <a href="#" class="btn">Order Now</a>
       </div>
-      <div class="card">
+
+      <!-- 2. Pricing Box -->
+      <div class="box" id="pricingBox">
+        <button class="copy-btn" onclick="copyBox('pricingBox')">Copy Code</button>
         <h3>Logo Design</h3>
-        <p>Unique and professional logos tailored to your brand identity.</p>
+        <p class="price">₹799</p>
+        <p>Professional and modern logo with unlimited revisions.</p>
+        <a href="#" class="btn">Choose Plan</a>
+      </div>
+
+      <!-- 3. Testimonial Box -->
+      <div class="box" id="testimonialBox">
+        <button class="copy-btn" onclick="copyBox('testimonialBox')">Copy Code</button>
+        <p>“Solvoro made our website look incredible! Great support and fast delivery.”</p>
+        <h4>— Aman Sharma</h4>
+      </div>
+
+      <!-- 4. Feature Box -->
+      <div class="box" id="featureBox">
+        <button class="copy-btn" onclick="copyBox('featureBox')">Copy Code</button>
+        <h3>24/7 Support</h3>
+        <p>We provide full-time support and maintenance for your business needs.</p>
+      </div>
+
+      <!-- 5. Team Box -->
+      <div class="box" id="teamBox">
+        <button class="copy-btn" onclick="copyBox('teamBox')">Copy Code</button>
+        <img src="https://via.placeholder.com/300x200" alt="Team Member">
+        <h3>Rohit Verma</h3>
+        <p>UI/UX Designer</p>
+      </div>
+
+      <!-- 6. Call to Action Box -->
+      <div class="box" id="ctaBox">
+        <button class="copy-btn" onclick="copyBox('ctaBox')">Copy Code</button>
+        <h3>Let’s Start Your Project 🚀</h3>
+        <p>Work with Solvoro to grow your online presence.</p>
+        <a href="#" class="btn">Get Started</a>
+      </div>
+
+      <!-- 7. Image + Text Box -->
+      <div class="box" id="imageTextBox">
+        <button class="copy-btn" onclick="copyBox('imageTextBox')">Copy Code</button>
+        <img src="https://via.placeholder.com/300x180" alt="Portfolio">
+        <h3>Modern Portfolio</h3>
+        <p>Clean layout, smooth animations, and creative designs.</p>
+      </div>
+
+      <!-- 8. Stats Box -->
+      <div class="box" id="statsBox">
+        <button class="copy-btn" onclick="copyBox('statsBox')">Copy Code</button>
+        <h3>500+</h3>
+        <p>Projects Completed</p>
+      </div>
+
+      <!-- 9. Contact Box -->
+      <div class="box" id="contactBox">
+        <button class="copy-btn" onclick="copyBox('contactBox')">Copy Code</button>
+        <h3>Contact Us</h3>
+        <p>Email: solvoro.official@gmail.com</p>
+        <p>Instagram: @solvoro.freelancing</p>
+      </div>
+
+      <!-- 10. Newsletter Box -->
+      <div class="box" id="newsletterBox">
+        <button class="copy-btn" onclick="copyBox('newsletterBox')">Copy Code</button>
+        <h3>Subscribe for Updates</h3>
+        <input type="email" placeholder="Enter your email" style="padding:0.5rem; width:80%; border-radius:8px; border:none;">
+        <br><br>
+        <a href="#" class="btn">Subscribe</a>
       </div>
     </div>
-  </section>
+  </main>
 
-  <!-- Reviews -->
-  <section class="reviews">
-    <h2>Client Reviews</h2>
-    <div class="review-grid">
-      <div class="review-card">"My website is super smooth and modern!" – Client A</div>
-      <div class="review-card">"The logo perfectly matches my brand vision." – Client B</div>
-      <div class="review-card">"Affordable and professional service." – Client C</div>
-    </div>
-  </section>
-
-  <!-- Footer -->
   <footer>
-    <p>&copy; 2025 Solvoro. All Rights Reserved.</p>
-    <p>
-      <a href="privacy.html">Privacy Policy</a> | 
-      <a href="terms.html">Terms & Conditions</a>
-    </p>
+    <p>© 2025 Solvoro. All rights reserved.</p>
   </footer>
 
   <script>
-    // Theme toggle
-    const themeToggle = document.getElementById("themeToggle");
-    themeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("light");
-      if (document.body.classList.contains("light")) {
-        themeToggle.textContent = "🌙 Dark";
-      } else {
-        themeToggle.textContent = "☀️ Light";
-      }
+    // Theme Toggle
+    const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('light');
     });
+
+    // Copy Box Function
+    function copyBox(id) {
+      const box = document.getElementById(id).cloneNode(true);
+      box.querySelector('.copy-btn').remove(); // remove button before copying
+      const text = box.outerHTML;
+      navigator.clipboard.writeText(text);
+      alert("Box code copied!");
+    }
   </script>
 </body>
 </html>
