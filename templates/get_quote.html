@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %}Get a Quote - Prabha Graphics{% endblock %}
+
+{% block content %}
+<section style="padding: 80px 20px; background: var(--grey-bg);">
+    <div style="max-width: 700px; margin: 0 auto; background: var(--light-text); padding: 40px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+        <h2 class="section-title" style="text-align: center; margin-bottom: 30px;">Get Your Free Quote</h2>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'success' %}
+                        <div class="alert alert-success" style="background: #d1e7dd; border: 2px solid #28a745; padding: 20px; margin-bottom: 20px; border-radius: 5px; color: #0a3622;">
+                            <strong style="font-size: 1.1rem;">✓ {{ message }}</strong>
+                            <p style="margin-top: 8px; font-size: 0.95rem;">Your quote request has been submitted successfully! Our team will review your requirements and contact you with a detailed quotation as soon as possible. Thank you!</p>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-danger">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="post" action="{{ url_for('get_quote') }}" style="display: flex; flex-direction: column; gap: 15px;">
+            <div>
+                <label for="name" style="display: block; margin-bottom: 5px; font-weight: 500;">Full Name *</label>
+                <input type="text" id="name" name="name" required placeholder="Your full name" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem;">
+            </div>
+
+            <div>
+                <label for="email" style="display: block; margin-bottom: 5px; font-weight: 500;">Email Address *</label>
+                <input type="email" id="email" name="email" required placeholder="your.email@example.com" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem;">
+            </div>
+
+            <div>
+                <label for="mobile" style="display: block; margin-bottom: 5px; font-weight: 500;">Mobile Number *</label>
+                <input type="tel" id="mobile" name="mobile" required placeholder="+91 98765 43210" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem;">
+            </div>
+
+            <div>
+                <label for="company" style="display: block; margin-bottom: 5px; font-weight: 500;">Company Name</label>
+                <input type="text" id="company" name="company" placeholder="Your company name" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem;">
+            </div>
+
+            <div>
+                <div>
+                <label for="product_type" style="display: block; margin-bottom: 5px; font-weight: 500;">Product Type *</label>
+                <select id="product_type" name="product_type" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem;">
+                    <option value="">-- Select Product --</option>
+                    <option value="T-Shirts">T-Shirts</option>
+                    <option value="Mugs">Mugs</option>
+                    <option value="Keychains">Keychains</option>
+                    <option value="Cushions">Cushions</option>
+                    <option value="Clocks">Clocks</option>
+                    <option value="Caps">Caps</option>
+                    <option value="Bottles">Bottles</option>
+                    <option value="Combo Pack">Combo Pack</option>
+                    <option value="Other">Other</option>
+                </select>
+      
+
+            <div>
+                <label for="quantity" style="display: block; margin-bottom: 5px; font-weight: 500;">Quantity Needed</label>
+                <input type="text" id="quantity" name="quantity" placeholder="e.g., 100, 500, 1000+" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem;">
+            </div>
+
+            <div>
+                <label for="budget" style="display: block; margin-bottom: 5px; font-weight: 500;">Budget Range</label>
+                <select id="budget" name="budget" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem;">
+                    <option value="">-- Select Budget --</option>
+                    <option value="Under 10,000">Under ₹10,000</option>
+                    <option value="10,000 - 50,000">₹10,000 - ₹50,000</option>
+                    <option value="50,000 - 1,00,000">₹50,000 - ₹1,00,000</option>
+                    <option value="1,00,000 - 5,00,000">₹1,00,000 - ₹5,00,000</option>
+                    <option value="Above 5,00,000">Above ₹5,00,000</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="timeline" style="display: block; margin-bottom: 5px; font-weight: 500;">Required Timeline</label>
+                <select id="timeline" name="timeline" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem;">
+                    <option value="">-- Select Timeline --</option>
+                    <option value="Urgent (ASAP)">Urgent (ASAP)</option>
+                    <option value="1-2 weeks">1-2 weeks</option>
+                    <option value="2-4 weeks">2-4 weeks</option>
+                    <option value="1-2 months">1-2 months</option>
+                    <option value="2-3 months">2-3 months</option>
+                    <option value="Flexible">Flexible</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="requirements" style="display: block; margin-bottom: 5px; font-weight: 500;">Project Requirements & Details</label>
+                <textarea id="requirements" name="requirements" placeholder="Tell us about your project, design requirements, customization needs, etc." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; min-height: 120px; font-family: inherit;"></textarea>
+            </div>
+
+            <button type="submit" class="nav-button" style="width: 100%; padding: 14px; font-size: 1.1rem; cursor: pointer; margin-top: 10px;">Request Quote</button>
+            <a href="{{ url_for('index') }}" style="text-align: center; padding: 12px; color: var(--primary-red); text-decoration: none; font-weight: 500;">← Back to Home</a>
+        </form>
+    </div>
+</section>
+{% endblock %}

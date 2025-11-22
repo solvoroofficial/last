@@ -1,0 +1,6 @@
+{
+  "username": "prabha",
+  "password_hash": "scrypt:32768:8:1$GHB7aVIp6j25aomU$a18f591cc8191c6565b22f6a642e2f22bf187e5c73df5216547487ff16c93e553f46df677f620dfbeda22b1d101044c90efb8c99380c6a17e6ab048e2ed6b2d2",
+  "mobile": "",
+  "require_otp": false
+}

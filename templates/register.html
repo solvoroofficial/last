@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Register - Prabha Graphics{% endblock %}
+
+{% block content %}
+<section style="padding:60px 20px;max-width:720px;margin:0 auto;">
+    <h2 class="section-title">Register</h2>
+    <form method="post" action="{{ url_for('register') }}" style="display:flex;flex-direction:column;gap:12px;">
+        <input name="name" placeholder="Full name" />
+        <input name="email" placeholder="Email" required />
+        <input name="password" type="password" placeholder="Password" required />
+        <button class="nav-button" type="submit">Register</button>
+    </form>
+</section>
+{% endblock %}

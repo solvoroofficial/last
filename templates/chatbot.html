@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block title %}Chat with us - Prabha Graphics{% endblock %}
+
+{% block content %}
+<section style="padding: 80px 20px; background: var(--grey-bg); min-height: 100vh;">
+    <div style="max-width: 800px; margin: 0 auto; background: white; border-radius: 10px; box-shadow: 0 5px 30px rgba(0,0,0,0.2); display: flex; flex-direction: column; height: 600px;">
+        
+        <!-- Header -->
+        <div style="background: var(--primary-red); color: white; padding: 20px; border-radius: 10px 10px 0 0; text-align: center;">
+            <h2 style="margin: 0;">Prabha Graphics Assistant</h2>
+            <p style="margin: 5px 0; font-size: 0.9rem; opacity: 0.9;">How can we help you today?</p>
+        </div>
+        
+        <!-- Chat messages area -->
+        <div id="chatMessages" style="flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; background: #f9f9f9;"></div>
+        
+        <!-- Input area -->
+        <div style="padding: 15px; border-top: 1px solid #ddd; display: flex; gap: 10px;">
+            <input type="text" id="userInput" placeholder="Type your message or select an option..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem;">
+            <button onclick="sendMessage()" style="padding: 10px 20px; background: var(--primary-red); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Send</button>
+        </div>
+    </div>
+</section>
+
+<script>
+    let currentNode = 'start';
+    let userResponses = {};
+
+    async function fetchChatbotResponse(node, userInput = '') {
+        try {
+            const response = await fetch('/api/chatbot', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ node: node, input: userInput })
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
+    }
+
+
+    async function initializeChat() {
+        const data = await fetchChatbotResponse('start');
+        if (data) {
+            currentNode = data.node;
+            displayBotMessageWithOptions(data.message, data.options, data.type);
+        }
+    }
+
+    function displayMessage(message, sender) {
+        const messagesDiv = document.getElementById('chatMessages');
+        const msgEl = document.createElement('div');
+        if (sender === 'bot') {
+            msgEl.style.cssText = 'background: var(--primary-red); color: white; padding: 12px 16px; border-radius: 8px; align-self: flex-start; max-width: 80%;';
+        } else {
+            msgEl.style.cssText = 'background: #e3e3e3; padding: 12px 16px; border-radius: 8px; align-self: flex-end; max-width: 80%;';
+        }
+        msgEl.innerHTML = `<p style=\"margin: 0;\">${message}</p>`;
+        messagesDiv.appendChild(msgEl);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function displayBotMessageWithOptions(message, options, type) {
+        const messagesDiv = document.getElementById('chatMessages');
+        const msgEl = document.createElement('div');
+        msgEl.style.cssText = 'background: var(--primary-red); color: white; padding: 12px 16px; border-radius: 8px; align-self: flex-start; max-width: 80%; margin-bottom: 0;';
+        msgEl.innerHTML = `<p style=\"margin: 0;\">${message}</p>`;
+        messagesDiv.appendChild(msgEl);
+
+        if (type === 'input') {
+            document.getElementById('userInput').style.display = 'block';
+            document.getElementById('userInput').focus();
+        } else if (options && options.length > 0) {
+            document.getElementById('userInput').style.display = 'none';
+            const optionsDiv = document.createElement('div');
+            optionsDiv.style.cssText = 'display: flex; flex-direction: column; gap: 8px; margin-top: 8px;';
+            options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.innerHTML = option.text;
+                btn.onclick = () => selectOption(option.text);
+                btn.style.cssText = 'padding: 10px 15px; background: white; border: 2px solid var(--primary-red); color: var(--primary-red); border-radius: 5px; cursor: pointer; font-weight: 600; text-align: left; width: 100%;';
+                optionsDiv.appendChild(btn);
+            });
+            messagesDiv.appendChild(optionsDiv);
+        } else {
+            document.getElementById('userInput').style.display = 'block';
+        }
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+
+    async function selectOption(option) {
+        displayMessage(option, 'user');
+        const data = await fetchChatbotResponse(currentNode, option);
+        if (data) {
+            currentNode = data.node;
+            displayBotMessageWithOptions(data.message, data.options, data.type);
+        }
+    }
+
+
+    async function sendMessage() {
+        const input = document.getElementById('userInput');
+        const message = input.value.trim();
+        if (!message) return;
+        displayMessage(message, 'user');
+        input.value = '';
+        const data = await fetchChatbotResponse(currentNode, message);
+        if (data) {
+            currentNode = data.node;
+            displayBotMessageWithOptions(data.message, data.options, data.type);
+        }
+    }
+
+    // Handle Enter key
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        initializeChat();
+    });
+</script>
+{% endblock %}

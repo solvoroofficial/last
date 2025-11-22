@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Verify Admin OTP{% endblock %}
+
+{% block content %}
+<section style="padding: 100px 20px; background: var(--grey-bg); min-height: 100vh;">
+  <div style="max-width:600px;margin:0 auto;background:white;padding:30px;border-radius:8px;">
+    <h3>Enter OTP</h3>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert {% if category == 'success' %}alert-success{% else %}alert-danger{% endif %}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <form method="post">
+      <label style="display:block;margin-bottom:8px;">OTP Code</label>
+      <input name="otp_code" placeholder="6-digit code" style="padding:10px;width:200px;border:1px solid #ddd;border-radius:5px;" required />
+      <div style="margin-top:15px;display:flex;gap:10px;">
+        <button type="submit" class="nav-button">Verify</button>
+        <a class="nav-button" href="{{ url_for('admin_login') }}" style="background:#6c757d;">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

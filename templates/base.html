@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Prabha Graphics{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Floating chatbot button */
+        .chatbot-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 24px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-red, #D10007);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+            z-index: 9999;
+            cursor: pointer;
+            border: none;
+        }
+        .chatbot-btn:hover { transform: translateY(-3px); }
+        .chatbot-icon { font-size: 26px; line-height: 1; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">Prabha Graphics</div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#home">Home</a></li>
+                <li class="nav-item"><a href="#about">About Us</a></li>
+                <li class="nav-item"><a href="#contact">Contact Us</a></li>
+            </ul>
+            <div style="display:flex;gap:12px;align-items:center;">
+                {% if current_user.is_authenticated %}
+                    <a class="nav-item" href="{{ url_for('profile') }}">{{ current_user.name or current_user.email }}</a>
+                    <a class="nav-button" href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    {# Show customer buttons on public pages; hide only on admin pages (paths starting with /admin) #}
+                    {% if not request.path.startswith('/admin') %}
+                        <a class="nav-button" href="{{ url_for('customer_details') }}">Customer Details</a>
+                        <a class="nav-button" href="{{ url_for('get_quote') }}">Get a Quote</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Prabha Graphics</h3>
+                <p>Your trusted partner in Lucknow for all corporate and personalized printing and gifting needs.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#corporate">T-Shirts</a></li>
+                    <li><a href="#personal">Mugs</a></li>
+                    <li><a href="#corporate">Keychains</a></li>
+                    <li><a href="#personal">Custom Gifts</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p><strong>Phone:</strong> 074579 94888</p>
+                <p><strong>Address:</strong> Shop No. 4/74, Adarsh Market, Gomti Nagar, Lucknow, UP 226010</p>
+                <p><strong>Website:</strong> www.prabhagraphics.in</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Prabha Graphics. All Rights Reserved. | <a href="{{ url_for('admin_login') }}" style="color: inherit; text-decoration: none;">Admin</a></p>
+        </div>
+    </footer>
+
+    <!-- Floating Chatbot Button -->
+    <a href="/chatbot" class="chatbot-btn" title="Chat with us">
+        <span class="chatbot-icon">💬</span>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <!-- Firebase client config (optional) -->
+    <script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+        new Swiper('.hero-swiper', { spaceBetween:0, slidesPerView:1, navigation:{ nextEl:'.swiper-button-next', prevEl:'.swiper-button-prev' }, pagination:{ el:'.swiper-pagination', clickable:true }, autoplay:{ delay:5000, disableOnInteraction:false }, loop:true });
+    </script>
+</body>
+</html>

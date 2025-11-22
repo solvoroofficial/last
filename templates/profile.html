@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Profile - Prabha Graphics{% endblock %}
+
+{% block content %}
+<section style="padding:60px 20px;max-width:720px;margin:0 auto;">
+    <h2 class="section-title">Your Profile</h2>
+    <p><strong>Name:</strong> {{ current_user.name }}</p>
+    <p><strong>Email:</strong> {{ current_user.email }}</p>
+    <p><strong>Member since:</strong> {{ current_user.created_at.strftime('%Y-%m-%d') }}</p>
+    <div style="margin-top:12px;"><a class="nav-button" href="{{ url_for('logout') }}">Logout</a></div>
+</section>
+{% endblock %}

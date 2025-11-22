@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Admin Settings - Prabha Graphics{% endblock %}
+
+{% block content %}
+<section style="padding: 100px 20px; background: var(--grey-bg); min-height: 100vh;">
+    <div style="max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <h2>Admin Settings</h2>
+            <a href="{{ url_for('admin_dashboard') }}" class="nav-button">Back</a>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {% if category == 'success' %}alert-success{% else %}alert-danger{% endif %}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="post" action="{{ url_for('admin_settings_view') }}">
+            <div style="margin-bottom:15px;">
+                <label style="font-weight:600;display:block;margin-bottom:5px;">Username</label>
+                <input name="username" value="{{ username }}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;" required />
+            </div>
+            <div style="margin-bottom:15px;">
+                <label style="font-weight:600;display:block;margin-bottom:5px;">New Password (leave blank to keep current)</label>
+                <input name="password" type="password" placeholder="New password" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;" />
+            </div>
+            <div style="margin-bottom:15px;">
+                <label style="font-weight:600;display:block;margin-bottom:5px;">Mobile Number (for OTP)</label>
+                <input name="mobile" value="{{ mobile or '' }}" placeholder="e.g. +919876543210" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;" />
+            </div>
+            <div style="margin-bottom:15px;display:flex;align-items:center;gap:12px;">
+                <input type="checkbox" id="require_otp" name="require_otp" value="1" {% if require_otp %}checked{% endif %} />
+                <label for="require_otp">Require OTP for admin login</label>
+            </div>
+
+            <div style="display:flex;gap:10px;">
+                <button type="submit" class="nav-button" style="flex:1;padding:10px 20px;">Save Settings</button>
+                <button type="button" id="sendOtpBtn" class="nav-button" style="background:#0d6efd;">Send OTP Now</button>
+            </div>
+        </form>
+
+        <form method="post" action="{{ url_for('admin_verify_mobile') }}" id="verify-otp-form" style="margin-top:20px;display:none;">
+            <label style="font-weight:600;display:block;margin-bottom:5px;">Enter OTP</label>
+            <input name="otp_code" placeholder="6-digit code" style="width:200px;padding:10px;border:1px solid #ddd;border-radius:5px;" />
+            <button type="submit" class="nav-button" style="margin-left:10px;">Verify</button>
+        </form>
+    </div>
+</section>
+
+<script>
+document.getElementById('sendOtpBtn').addEventListener('click', function(){
+    fetch('{{ url_for('admin_send_otp') }}', { method: 'POST' })
+    .then(r => r.json())
+    .then(j => {
+        alert(j.message || 'OTP sent (check server log for code)');
+        document.getElementById('verify-otp-form').style.display = 'block';
+    })
+    .catch(e => { alert('Failed to send OTP'); });
+});
+</script>
+
+{% endblock %}

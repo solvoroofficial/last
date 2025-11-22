@@ -1,0 +1,361 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard - Prabha Graphics{% endblock %}
+
+{% block content %}
+<section style="padding: 100px 20px; background: var(--grey-bg); min-height: 100vh;">
+    <div style="max-width: 1400px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+            <h2 class="section-title" style="margin: 0;">Admin Dashboard</h2>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <a href="{{ url_for('admin_settings_view') }}" class="nav-button" style="text-decoration: none; color: var(--light-text);">Settings</a>
+                <a href="{{ url_for('admin_logout') }}" class="nav-button" style="text-decoration: none; color: var(--light-text);">Logout</a>
+            </div>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'success' %}
+                        <div class="alert alert-success">{{ message }}</div>
+                    {% else %}
+                        <div class="alert alert-danger">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- CUSTOMER DETAILS SECTION -->
+        <!-- PRODUCTS MANAGEMENT SECTION -->
+        <div style="background: white; padding: 30px; border-radius: 10px; margin-bottom: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <h3 style="color: var(--dark-text); margin-bottom: 20px; border-bottom: 3px solid var(--primary-red); padding-bottom: 10px;">
+                Products
+            </h3>
+            <button class="nav-button" onclick="document.getElementById('add-product-modal').style.display='block'" style="margin-bottom:20px;">Add Product</button>
+            <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;">
+                    <thead>
+                        <tr style="background:var(--grey-bg);">
+                            <th style="padding:12px;text-align:left;border-bottom:2px solid #ddd;">Image</th>
+                            <th style="padding:12px;text-align:left;border-bottom:2px solid #ddd;">Name</th>
+                            <th style="padding:12px;text-align:left;border-bottom:2px solid #ddd;">Description</th>
+                            <th style="padding:12px;text-align:left;border-bottom:2px solid #ddd;">Price</th>
+                            <th style="padding:12px;text-align:left;border-bottom:2px solid #ddd;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set product_list = products if products is defined else [] %}
+                        {% for prod in product_list %}
+                        <tr style="border-bottom:1px solid #eee;">
+                            <td style="padding:12px;"><img src="/{{ prod.image_path.lstrip('/') }}" style="height:60px;object-fit:cover;border-radius:6px;" /></td>
+                            <td style="padding:12px;">{{ prod.name }}</td>
+                            <td style="padding:12px;">{{ prod.description }}</td>
+                            <td style="padding:12px;">₹{{ '%.2f'|format(prod.price or 0) }}</td>
+                            <td style="padding:12px;">
+                                <form method="post" action="{{ url_for('delete_product', product_id=prod.id) }}" style="display:inline;">
+                                    <button type="submit" class="delete-btn" style="background:#dc3545;color:white;border:none;padding:8px 12px;border-radius:5px;">Delete</button>
+                                </form>
+                                <form method="post" action="{{ url_for('toggle_product_home', product_id=prod.id) }}" style="display:inline;margin-left:8px;">
+                                    <button type="submit" class="nav-button" style="padding:8px 12px;">{% if prod.show_on_homepage %}Remove from Home{% else %}Show on Home{% endif %}</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="5" style="padding:12px;color:#666;">No products yet.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="background: white; padding: 30px; border-radius: 10px; margin-bottom: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <h3 style="color: var(--dark-text); margin-bottom: 20px; border-bottom: 3px solid var(--primary-red); padding-bottom: 10px;">
+                Customer Details Requests ({{ customers|length }})
+            </h3>
+            
+            {% if customers %}
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: var(--grey-bg);">
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Name</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Email</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Mobile</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Company</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Product Interest</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Quantity</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Status</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Date</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for customer in customers %}
+                                <tr style="border-bottom: 1px solid #eee;" onmouseover="this.style.background='var(--grey-bg)'" onmouseout="this.style.background='white'">
+                                    <td style="padding: 12px;"><strong>{{ customer.name }}</strong></td>
+                                    <td style="padding: 12px;">{{ customer.email }}</td>
+                                    <td style="padding: 12px;">{{ customer.mobile }}</td>
+                                    <td style="padding: 12px;">{{ customer.company or 'N/A' }}</td>
+                                    <td style="padding: 12px;">{{ customer.product_interest or 'N/A' }}</td>
+                                    <td style="padding: 12px;">{{ customer.quantity or 'N/A' }}</td>
+                                    <td style="padding: 12px;">
+                                        <span class="status-badge status-{{ customer.status }}">{{ customer.status|upper }}</span>
+                                    </td>
+                                    <td style="padding: 12px; font-size: 0.9rem;">{{ customer.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td style="padding: 12px;">
+                                        <button type="button" onclick="document.getElementById('edit-customer-{{ customer.id }}').style.display='block'" class="nav-button" style="padding: 8px 12px; font-size: 0.85rem; text-decoration: none; border: none; cursor: pointer; margin-right: 5px;">Edit</button>
+                                        <button type="button" class="delete-btn" data-type="customer" data-id="{{ customer.id }}" data-name="{{ customer.name }}" style="padding: 8px 12px; font-size: 0.85rem; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Delete</button>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Edit Modal for Customer -->
+                                <div id="edit-customer-{{ customer.id }}" style="display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+                                    <div style="background: white; width: 600px; margin: 50px auto; padding: 30px; border-radius: 10px; max-height: 90vh; overflow-y: auto;">
+                                        <h4 style="color: var(--dark-text); margin-bottom: 20px;">Update Customer - {{ customer.name }}</h4>
+                                        
+                                        <div style="background: var(--grey-bg); padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                                            <p style="margin: 5px 0;"><strong>Email:</strong> {{ customer.email }}</p>
+                                            <p style="margin: 5px 0;"><strong>Mobile:</strong> {{ customer.mobile }}</p>
+                                            <p style="margin: 5px 0;"><strong>Company:</strong> {{ customer.company or 'N/A' }}</p>
+                                            <p style="margin: 5px 0;"><strong>Address:</strong> {{ customer.address or 'N/A' }}</p>
+                                            <p style="margin: 5px 0;"><strong>Product Interest:</strong> {{ customer.product_interest or 'N/A' }}</p>
+                                            <p style="margin: 5px 0;"><strong>Quantity:</strong> {{ customer.quantity or 'N/A' }}</p>
+                                            <p style="margin: 5px 0;"><strong>Submitted:</strong> {{ customer.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                                        </div>
+                                        
+                                        <form method="post" action="{{ url_for('update_customer', customer_id=customer.id) }}">
+                                            <div style="margin-bottom: 15px;">
+                                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Status</label>
+                                                <select name="status" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                                    <option value="new" {% if customer.status == 'new' %}selected{% endif %}>New</option>
+                                                    <option value="contacted" {% if customer.status == 'contacted' %}selected{% endif %}>Contacted</option>
+                                                    <option value="processed" {% if customer.status == 'processed' %}selected{% endif %}>Processed</option>
+                                                </select>
+                                            </div>
+                                            <div style="margin-bottom: 15px;">
+                                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Admin Notes</label>
+                                                <textarea name="notes" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 100px; resize: vertical; font-family: inherit;">{{ customer.notes or '' }}</textarea>
+                                            </div>
+                                            <div style="display: flex; gap: 10px;">
+                                                <button type="submit" class="nav-button" style="padding: 10px 20px; border: none; cursor: pointer; flex: 1;">Save Changes</button>
+                                                <button type="button" onclick="document.getElementById('edit-customer-{{ customer.id }}').style.display='none'" style="padding: 10px 20px; background: #999; color: white; border: none; border-radius: 5px; cursor: pointer; flex: 1;">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p style="color: #666; font-style: italic;">No customer details submitted yet.</p>
+            {% endif %}
+        </div>
+
+        <!-- QUOTE REQUESTS SECTION -->
+        <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <h3 style="color: var(--dark-text); margin-bottom: 20px; border-bottom: 3px solid var(--primary-red); padding-bottom: 10px;">
+                Quote Requests ({{ quotes|length }})
+            </h3>
+            
+            {% if quotes %}
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: var(--grey-bg);">
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Name</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Email</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Mobile</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Product</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Budget</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Status</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Date</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for quote in quotes %}
+                                <tr style="border-bottom: 1px solid #eee;" onmouseover="this.style.background='var(--grey-bg)'" onmouseout="this.style.background='white'">
+                                    <td style="padding: 12px;"><strong>{{ quote.name }}</strong></td>
+                                    <td style="padding: 12px;">{{ quote.email }}</td>
+                                    <td style="padding: 12px;">{{ quote.mobile }}</td>
+                                    <td style="padding: 12px;">{{ quote.product or 'N/A' }}</td>
+                                    <td style="padding: 12px;">{{ quote.budget or 'N/A' }}</td>
+                                    <td style="padding: 12px;">
+                                        <span class="status-badge status-{{ quote.status }}">{{ quote.status|upper }}</span>
+                                    </td>
+                                    <td style="padding: 12px; font-size: 0.9rem;">{{ quote.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td style="padding: 12px;">
+                                        <button type="button" onclick="document.getElementById('edit-quote-{{ quote.id }}').style.display='block'" class="nav-button" style="padding: 8px 12px; font-size: 0.85rem; text-decoration: none; border: none; cursor: pointer; margin-right: 5px;">Edit</button>
+                                        <button type="button" class="delete-btn" data-type="quote" data-id="{{ quote.id }}" data-name="{{ quote.name }}" style="padding: 8px 12px; font-size: 0.85rem; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Delete</button>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Edit Modal for Quote -->
+                                <div id="edit-quote-{{ quote.id }}" style="display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+                                    <div style="background: white; width: 600px; margin: 50px auto; padding: 30px; border-radius: 10px; max-height: 90vh; overflow-y: auto;">
+                                        <h4 style="color: var(--dark-text); margin-bottom: 20px;">Update Quote - {{ quote.name }}</h4>
+                                        
+                                        <div style="background: var(--grey-bg); padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                                            <p style="margin: 5px 0;"><strong>Email:</strong> {{ quote.email }}</p>
+                                            <p style="margin: 5px 0;"><strong>Mobile:</strong> {{ quote.mobile }}</p>
+                                            <p style="margin: 5px 0;"><strong>Product:</strong> {{ quote.product or 'N/A' }}</p>
+                                            <p style="margin: 5px 0;"><strong>Budget:</strong> {{ quote.budget or 'N/A' }}</p>
+                                            <p style="margin: 5px 0;"><strong>Project Details:</strong> {{ quote.details or 'N/A' }}</p>
+                                            <p style="margin: 5px 0;"><strong>Submitted:</strong> {{ quote.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                                        </div>
+                                        
+                                        <form method="post" action="{{ url_for('update_quote', quote_id=quote.id) }}">
+                                            <div style="margin-bottom: 15px;">
+                                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Status</label>
+                                                <select name="status" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                                    <option value="pending" {% if quote.status == 'pending' %}selected{% endif %}>Pending</option>
+                                                    <option value="in-progress" {% if quote.status == 'in-progress' %}selected{% endif %}>In Progress</option>
+                                                    <option value="completed" {% if quote.status == 'completed' %}selected{% endif %}>Completed</option>
+                                                    <option value="rejected" {% if quote.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                                </select>
+                                            </div>
+                                            <div style="margin-bottom: 15px;">
+                                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Admin Notes</label>
+                                                <textarea name="notes" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 100px; resize: vertical; font-family: inherit;">{{ quote.notes or '' }}</textarea>
+                                            </div>
+                                            <div style="display: flex; gap: 10px;">
+                                                <button type="submit" class="nav-button" style="padding: 10px 20px; border: none; cursor: pointer; flex: 1;">Save Changes</button>
+                                                <button type="button" onclick="document.getElementById('edit-quote-{{ quote.id }}').style.display='none'" style="padding: 10px 20px; background: #999; color: white; border: none; border-radius: 5px; cursor: pointer; flex: 1;">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p style="color: #666; font-style: italic;">No quote requests submitted yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteConfirmModal" style="display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000;">
+        <div style="background: white; width: 500px; margin: 100px auto; padding: 30px; border-radius: 10px; text-align: center;">
+            <h3 style="color: #dc3545; margin-bottom: 20px;">Confirm Deletion</h3>
+            <p id="deleteMessage" style="font-size: 1.1rem; margin-bottom: 30px; color: #333;"></p>
+            <p style="color: #666; margin-bottom: 30px; font-style: italic;">This action cannot be undone.</p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button type="button" onclick="confirmDelete()" style="padding: 12px 30px; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1rem;">Yes, Delete</button>
+                <button type="button" onclick="cancelDelete()" style="padding: 12px 30px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1rem;">Cancel</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Add Product Modal -->
+<div id="add-product-modal" style="display:none;position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;">
+    <div style="background:white;width:600px;margin:50px auto;padding:30px;border-radius:10px;">
+        <h4>Add Product</h4>
+        <form method="post" action="{{ url_for('add_product') }}" enctype="multipart/form-data">
+            <div style="margin-bottom:10px;">
+                <label style="display:block;margin-bottom:6px;">Name</label>
+                <input name="name" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;" />
+            </div>
+            <div style="margin-bottom:10px;">
+                <label style="display:block;margin-bottom:6px;">Description</label>
+                <textarea name="description" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;"></textarea>
+            </div>
+            <div style="margin-bottom:10px;">
+                <label style="display:block;margin-bottom:6px;">Price (INR)</label>
+                <input name="price" type="number" step="0.01" style="width:200px;padding:10px;border:1px solid #ddd;border-radius:5px;" />
+            </div>
+            <div style="margin-bottom:10px;">
+                <label style="display:block;margin-bottom:6px;">Image</label>
+                <input name="image" type="file" accept="image/*" />
+            </div>
+            <div style="margin-bottom:10px;">
+                <label style="display:block;margin-bottom:6px;">Category</label>
+                <select name="category" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;">
+                    <option value="">-- Select Category --</option>
+                    <option value="T-Shirts">T-Shirts</option>
+                    <option value="Mugs">Mugs</option>
+                    <option value="Keychains">Keychains</option>
+                    <option value="Cushions">Cushions</option>
+                    <option value="Corporate Gifts">Corporate Gifts</option>
+                    <option value="Others">Others</option>
+                </select>
+            </div>
+            <div style="margin-bottom:10px;display:flex;align-items:center;gap:10px;">
+                <input type="checkbox" id="show_on_homepage" name="show_on_homepage" />
+                <label for="show_on_homepage" style="margin:0;">Show on homepage</label>
+            </div>
+            <div style="display:flex;gap:10px;">
+                <button type="submit" class="nav-button">Add Product</button>
+                <button type="button" onclick="document.getElementById('add-product-modal').style.display='none'" class="nav-button" style="background:#999;">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .alert { padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+    .alert-success { background: #d1e7dd; color: #0a3622; border: 1px solid #badbcc; }
+    .alert-danger { background: #f8d7da; color: #842029; border: 1px solid #f5c2c7; }
+    
+    .status-badge { 
+        padding: 5px 10px; 
+        border-radius: 3px; 
+        font-size: 0.9rem; 
+        font-weight: bold;
+        display: inline-block;
+    }
+    
+    .status-badge.status-new { background: #fff3cd; color: #856404; }
+    .status-badge.status-contacted { background: #cfe2ff; color: #084298; }
+    .status-badge.status-processed { background: #d1e7dd; color: #0a3622; }
+    
+    .status-badge.status-pending { background: #fff3cd; color: #856404; }
+    .status-badge.status-in-progress { background: #cfe2ff; color: #084298; }
+    .status-badge.status-completed { background: #d1e7dd; color: #0a3622; }
+    .status-badge.status-rejected { background: #f8d7da; color: #842029; }
+</style>
+
+<script>
+    let deleteData = { type: null, id: null, name: null };
+
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            deleteData.type = this.getAttribute('data-type');
+            deleteData.id = this.getAttribute('data-id');
+            deleteData.name = this.getAttribute('data-name');
+            
+            const typeLabel = deleteData.type === 'customer' ? 'Customer' : 'Quote Request';
+            document.getElementById('deleteMessage').textContent = 
+                `Are you sure you want to delete the ${typeLabel} for "${deleteData.name}"?`;
+            document.getElementById('deleteConfirmModal').style.display = 'block';
+        });
+    });
+
+    function cancelDelete() {
+        deleteData = { type: null, id: null, name: null };
+        document.getElementById('deleteConfirmModal').style.display = 'none';
+    }
+
+    function confirmDelete() {
+        if (!deleteData.id || !deleteData.type) return;
+        
+        const url = deleteData.type === 'customer' 
+            ? `/admin/customer/${deleteData.id}/delete`
+            : `/admin/quote/${deleteData.id}/delete`;
+        
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = url;
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    document.getElementById('deleteConfirmModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            cancelDelete();
+        }
+    });
+</script>
+{% endblock %}

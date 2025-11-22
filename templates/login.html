@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Login - Prabha Graphics{% endblock %}
+
+{% block content %}
+<section style="padding:60px 20px;max-width:720px;margin:0 auto;">
+    <h2 class="section-title">Login</h2>
+    <form method="post" action="{{ url_for('login') }}" style="display:flex;flex-direction:column;gap:12px;">
+        <input name="email" placeholder="Email" required />
+        <input name="password" type="password" placeholder="Password" required />
+        <button class="nav-button" type="submit">Login</button>
+    </form>
+    <div style="margin-top:16px;display:flex;gap:12px;">
+        <a class="nav-button" href="{{ url_for('login_google') }}">Login with Google</a>
+        <a href="{{ url_for('register') }}">New? Register here</a>
+    </div>
+</section>
+{% endblock %}
